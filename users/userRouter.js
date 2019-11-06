@@ -89,7 +89,7 @@ function validateUserId(req, res, next) {
       req.user = user;
       next();
     } else {
-      res.status(404).json({ error: " The user id don't exist" });
+      res.status(400).json({ message: "invalid user id"  });
     }
   })
 };
@@ -97,10 +97,10 @@ function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   const { name } = req.body;
   if (!name) {
-    return res.status(400).json({error: "Name is required"});
+    return res.status(400).json({message: "missing user data"});
   }
   if (typeof name !== 'string') {
-    return res.status(400).json({error: "Name needs to be string"});
+    return res.status(400).json({message: "missing required name field"});
   }
   req.body = { name };
   next();
@@ -111,14 +111,14 @@ function validatePost(req, res, next) {
   const { text } = req.body;
 
   if (!req.body) {
-    return res.status(400).json({error: "Requires post body"});
+    return res.status(400).json({message: "missing post data" });
   }
   if (!text) {
-    return res.status(400).json({error: "Requires text"});
+    return res.status(400).json({message: "missing required text field"});
   }
 
   req.body = { user_id, text };
   next();
 }
 
-module.exports = router
+module.exports = router;
